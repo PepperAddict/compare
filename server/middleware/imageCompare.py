@@ -4,7 +4,7 @@ from flask import send_file
 import sys 
 
 img = Image.open(sys.argv[1])
-img2 = Image.open(sys.argv[2] + '.jpg')
+img2 = Image.open(sys.argv[2])
 
 diff = ImageChops.difference(img, img2)
 diff = diff.convert("RGBA")
@@ -22,7 +22,7 @@ if diff.getbbox():
     diff.putdata(newData)
     img.paste(diff, (0, 0), diff)
     image_path = '../frontend/public/images/'
-    img.save(f'{image_path}' + sys.argv[2] + '-diff.jpg', 'JPEG')
+    img.save(f'{image_path}' + sys.argv[3] + '-diff.jpg', 'JPEG')
     print('generated')
 else:
     print('none')

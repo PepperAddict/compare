@@ -5,27 +5,30 @@
 	export let image1 = 'images/image1.jpg';
 	export let image2 = 'images/image2.jpg';
 	export let image3 = 'images/image2-diff.jpg';
+	let site = 'www.google.com'
 
 
-	// const theURL = `http://localhost:8181/api/1/puppeteer/?url=https://www.google.com`;
+	const theURL = `http://localhost:8181/api/1/puppeteer/?id=01`;
 
-    //   const controller = new AbortController();
-    //   //abort fetch if it takes longer than 60 seconds.
-    //   setTimeout(() => {controller.abort()}, 60000)
+      const controller = new AbortController();
+      //abort fetch if it takes longer than 60 seconds.
+      setTimeout(() => {controller.abort()}, 60000)
 
-    //   fetch(theURL, {signal: controller.signal})
-    //     .then((res) => res.blob())
-    //     .then(async (image) => {
-    //       //const myFile = new File([image], "thumbnail.jpg", { type: image.type });
-	// 	  const imageUrl = window.URL.createObjectURL(image)
+      fetch(theURL, {signal: controller.signal})
+        .then((res) => res.blob())
+        .then(async (image) => {
+          //const myFile = new File([image], "thumbnail.jpg", { type: image.type });
+		  const imageUrl = window.URL.createObjectURL(image)
+		  image2 = imageUrl;
+		  fetch(`http://localhost:8181/compare?id=01`).then((res) => {
+			  image3 = `images/01-diff.jpg`
+		  })
 
-	// 	  image3 = imageUrl
+        })
 
-    //     })
-
-    //     .catch((ee) => {
-    //       console.log(ee)
-	// 	});
+        .catch((ee) => {
+          console.log(ee)
+		});
     
 
 </script>

@@ -2,6 +2,7 @@ const express = require("express");
 
 const router = express();
 const puppeteer = require("puppeteer");
+const { puppetPaths } = require('../../helpers/thepaths')
 
 router.get(
   ["/api/1/puppeteer/", "/api/1/puppeteer/:page?"],
@@ -40,26 +41,30 @@ router.get(
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
 
-    try {
-      const page = await browser.newPage();
+    puppetPaths.forEach(async (data) => {
+      console.log(data)
+      if (data.id === req.query.id) {
+        try {
+          const page = await browser.newPage();
+          await page.setViewport(whichView["desktop"]);
+          await page.goto(data.website, {
+            waitUntil: "networkidle2",
+            timeout: 60000,
+          });
 
-      await page.setViewport(whichView["desktop"]);
-      await page.goto(req.query.url, {
-        waitUntil: "networkidle2",
-        timeout: 60000,
-      });
-
-      const image = await page.screenshot({
-        type: "png",
-        fullPage: true,
-        path: '../../frontend/public/images/' + req.query.url + '.jpg'
-      });
-      await browser.close();
-      res.set("Content-Type", "image/png");
-      res.send(image);
-    } catch (error) {
-      console.log(error);
-    }
+          const image = await page.screenshot({
+            type: "jpeg",
+            fullPage: true,
+            path: data.path
+          });
+          await browser.close();
+          res.set("Content-Type", "image/png");
+          res.send(image);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    })
   }
 );
 
