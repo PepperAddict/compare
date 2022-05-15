@@ -20,8 +20,6 @@ router.use(cors());
 const play = require('./middleware/puppeteer.js')
 router.use(play, cors({ credentials: true, origin: true }))
 
-const mupload = require('./middleware/imageupload.js')
-router.use(mupload, cors({ credentials: true, origin: true }))
 
 
 
@@ -37,9 +35,10 @@ app.use("/compare", async (req, res) => {
   puppetPaths.forEach((data) => {
     const spawn = require("child_process").spawn;
     
-    const process = spawn('python', ["middleware/imageCompare.py", data.original, data.path, data.name], { stdio: 'inherit' });
+    const process = spawn('python', ["middleware/imageCompare.py", data.original, data.path, data.id], { stdio: 'inherit' });
 
     process.on('close', (code) => {
+      console.log(code)
       res.send('generated')
     })
   })
