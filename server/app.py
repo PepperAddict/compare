@@ -1,16 +1,17 @@
 from flask import Flask
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def hell():
     return "hello world"
 
-@app.route('/test')
+@app.route('/test', methods=['GET'])
 def test():
-    response_body = {
+    response = {
         "world": "Hello",
         "about" :"Test"
     }
-
-    return response_body
+    return response
