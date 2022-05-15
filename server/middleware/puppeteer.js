@@ -52,7 +52,7 @@ router.get(
       const image = await page.screenshot({
         type: "png",
         fullPage: true,
-        path: req.query.url + '.jpg'
+        path: '../../frontend/public/images/' + req.query.url + '.jpg'
       });
       await browser.close();
       res.set("Content-Type", "image/png");

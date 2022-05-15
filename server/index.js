@@ -24,7 +24,7 @@ router.use(mupload, cors({credentials: true, origin: true}))
 
 
 
-app.use("/test", async (req, res) => {
+app.use("/compare", async (req, res) => {
       res.setHeader("Access-Control-Allow-Origin", "*");
       res.setHeader("Access-Control-Allow-Methods", "GET, POST");
       res.setHeader(
@@ -33,14 +33,11 @@ app.use("/test", async (req, res) => {
       );
       res.setHeader("Access-Control-Allow-Credentials", true);
         const spawn = require("child_process").spawn;
-
-        const process = spawn('python',["middleware/imageCompare.py", 'image1.jpg', 'image2.jpg'], {stdio: 'inherit'});
+        const process = spawn('python',["middleware/imageCompare.py", 'image1.jpg', 'image2'], {stdio: 'inherit'});
         
     
         process.on('close', (code) => {
-            // res.set('Content-Type', 'image/png')
-            // res.send(code)
-            console.log(code)
+               res.send('generated')
         })
     
     
